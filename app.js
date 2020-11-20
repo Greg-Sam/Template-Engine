@@ -5,13 +5,122 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+
 
 const render = require("./lib/htmlRenderer");
 
-const questions = [{ type: 'input', name: 'name', message: 'Employee name:' }, { type: 'list', name: 'role', message: 'Employee role:' choices: ['Manager', 'Engineer', 'Intern']}, {type: 'input', name: 'id', message: 'Emplyee ID:'}, {type: 'input', name: 'github', message: 'GitHub username:'}, {type: 'input', name: 'officeNumber', message: 'Office number:'}, {type: 'input', name: 'school', message: 'School:'} ]
+let employees = []
 
+
+
+const addEmployee = () => {
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'role',
+      message: 'Employee role:',
+      choices: ['Manager', 'Engineer', 'Intern']
+    },
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Employee name:'
+    },
+    {
+      type: 'number',
+      name: 'id',
+      message: 'Employee ID:'
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Employee email'
+    }
+  ])
+    .then(employee => {
+      switch (employee.role) {
+        case 'Manager':
+          addManager(employee)
+          break
+        case 'Engineer':
+          addEngineer(employee)
+          break
+        case 'beverage':
+          addIntern(employee)
+          break
+      }
+    })
+    .catch(err => console.log(err))
+}
+
+const addManager = ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'officeNumber',
+      message: 'Office number:'
+    }
+  ])
+    .then(({ officeNumber }) => {
+      employees.push(new Manager(name, id, email, officeNumber))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+
+const addEngineer = ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'github',
+      message: 'GitHub name:'
+    }
+  ])
+    .then(({ github }) => {
+      employees.push(new Manager(name, id, email, github))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+
+const addIntern = ({ name, id, email }) => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'school',
+      message: 'School name:'
+    }
+  ])
+    .then(({ school }) => {
+      employees.push(new Manager(name, id, email, school))
+      next()
+    })
+    .catch(err => console.log(err))
+}
+
+const next = () => {
+  inquirer.prompt({
+    type: 'list',
+    name: 'choice',
+    message: 'What would you like to do now?',
+    choices: ['Add another employee', 'Finish']
+  })
+    .then(({ choice }) => {
+      switch (choice) {
+        case 'Add another employee':
+          addEmployee()
+          break
+        case 'Finish':
+          fs.writeFile(path.join(__dirname, 'output', 'index.html'), render(employees), err => {
+            if (err) { console.log(err) }
+          })
+          break
+      }
+    })
+    .catch(err => console.log(err))
+}
+
+addEmployee()
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
