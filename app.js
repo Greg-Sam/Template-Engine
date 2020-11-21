@@ -28,12 +28,12 @@ const addEmployee = () => {
       message: 'Employee name:'
     },
     {
-      type: 'number',
+      type: 'input',
       name: 'id',
       message: 'Employee ID:',
       validate: function (value) {
         var pass = value.match(
-          /^[1-9]\d*$/
+          /^[0-9]\d*$/
         );
         if (pass) {
           return true;
