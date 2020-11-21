@@ -14,6 +14,7 @@ let employees = []
 
 
 const addEmployee = () => {
+
   inquirer.prompt([
     {
       type: 'list',
@@ -29,12 +30,31 @@ const addEmployee = () => {
     {
       type: 'number',
       name: 'id',
-      message: 'Employee ID:'
+      message: 'Employee ID:',
+      validate: function (value) {
+        var pass = value.match(
+          /^[1-9]\d*$/
+        );
+        if (pass) {
+          return true;
+        }
+        return 'Please enter a valid ID';
+      }
     },
     {
       type: 'input',
       name: 'email',
-      message: 'Employee email'
+      message: 'Employee email',
+      validate: function (value) {
+        var pass = value.match(
+          /\S+@\S+\.\S+/
+        );
+        if (pass) {
+          return true;
+        }
+
+        return 'Please enter a valid email address';
+      }
     }
   ])
     .then(employee => {
@@ -45,7 +65,7 @@ const addEmployee = () => {
         case 'Engineer':
           addEngineer(employee)
           break
-        case 'beverage':
+        case 'Intern':
           addIntern(employee)
           break
       }
@@ -77,7 +97,7 @@ const addEngineer = ({ name, id, email }) => {
     }
   ])
     .then(({ github }) => {
-      employees.push(new Manager(name, id, email, github))
+      employees.push(new Engineer(name, id, email, github))
       next()
     })
     .catch(err => console.log(err))
@@ -92,7 +112,7 @@ const addIntern = ({ name, id, email }) => {
     }
   ])
     .then(({ school }) => {
-      employees.push(new Manager(name, id, email, school))
+      employees.push(new Intern(name, id, email, school))
       next()
     })
     .catch(err => console.log(err))
