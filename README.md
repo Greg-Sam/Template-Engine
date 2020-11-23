@@ -14,6 +14,10 @@
   Clone this repo.  Run npm i. Follow the prompts.  
   ## Usage description
   Follow the onscreen prompts generate an HTML file which will appear in the output folder.  Copy the new file called index.html to the desired directory.  
+  ![Template Engine 1](https://user-images.githubusercontent.com/71279945/100000473-7fe46f00-2d76-11eb-913f-df8a985cb35d.PNG)  
+  ![Template Engine 2](https://user-images.githubusercontent.com/71279945/100000475-807d0580-2d76-11eb-9585-531c020abe55.PNG)  
+  ![Template Engine 3](https://user-images.githubusercontent.com/71279945/100000477-81159c00-2d76-11eb-993c-dcb258c6daa4.PNG)  
+  ![Template Engine 4](https://user-images.githubusercontent.com/71279945/100000479-81159c00-2d76-11eb-9da6-9b954d456acf.PNG)  
   ## License information
   public domain   
   ## Contributors
